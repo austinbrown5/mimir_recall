@@ -12,7 +12,7 @@ from collections import defaultdict
 from multiprocessing.pool import ThreadPool
 import torch.nn.functional as F
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
-from hf_olmo import *
+# from hf_olmo import *
 
 from mimir.config import ExperimentConfig
 from mimir.custom_datasets import SEPARATOR
@@ -212,6 +212,8 @@ class Model(nn.Module):
         elif "pubmedgpt" in self.name:
             tokenizer = transformers.AutoTokenizer.from_pretrained(
                 "stanford-crfm/BioMedLM", **optional_tok_kwargs, cache_dir=self.cache_dir)
+        elif "MetaMath" in self.name:
+            tokenizer = transformers.AutoTokenizer.from_pretrained("meta-math/MetaMath-Mistral-7B", use_fast=False)
         else:
             tokenizer = transformers.AutoTokenizer.from_pretrained(
                 self.name, **optional_tok_kwargs, cache_dir=self.cache_dir,

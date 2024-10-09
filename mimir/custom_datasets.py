@@ -10,7 +10,7 @@ from typing import List
 
 SEPARATOR = '<<<SEP>>>'
 
-DATASETS = ['writing', 'english', 'german', 'pubmed']
+DATASETS = ['writing', 'english', 'german', 'pubmed', "metamathqa"]
 
 SOURCES_UPLOADED = [
     "arxiv",
@@ -35,6 +35,17 @@ def load_pubmed(cache_dir):
 
     return data
 
+def load_metamathqa(cache_dir, data_split):
+    file_path = os.path.join(cache_dir, f"cache_100_200_1000_512", data_split, 'metamathqa' + ".jsonl")
+    if not os.path.exists(file_path):
+        raise ValueError(f"Requested cache file {file_path} does not exist")
+    data = load_data(file_path)
+    combined_texts = []
+    for example in data:
+        combined_text = f"{example['query']} {example['response']}"
+        combined_texts.append(combined_text)
+    
+    return combined_texts
 
 def load_cached(cache_dir,
                 data_split: str,
@@ -80,6 +91,9 @@ def load_cached(cache_dir,
         # If got here, matching source was not found
         raise ValueError(f"Requested source {filename} not found in HuggingFace data.")
     else:
+        if "metamathqa" in filename:
+            data = load_metamathqa(cache_dir = cache_dir, data_split = data_split)
+            return data
         file_path = os.path.join(cache_dir, f"cache_{min_length}_{max_length}_{n_samples}_{max_tokens}", data_split, filename + ".jsonl")
         if not os.path.exists(file_path):
             raise ValueError(f"Requested cache file {file_path} does not exist")

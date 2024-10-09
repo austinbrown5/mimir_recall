@@ -1,0 +1,36 @@
+{
+    "experiment_name": "metamathqa",
+    "base_model": "meta-math/MetaMath-Mistral-7B",
+    "dataset_member": "metamathqa",
+    "dataset_nonmember": "metamathqa",
+    "min_words": 100,
+    "max_words": 200,
+    "max_tokens": 512,
+    "max_data": 100000,
+    "output_name": "metamathqa",
+    "specific_source": "metamathqa",
+    "n_samples": 1000,
+    "blackbox_attacks": ["loss", "min_k", "min_k++"],
+    "env_config": {
+        "results": "results_new",
+        "cache_dir": "mimir_cache",
+        "data_source": "mimir_data",
+        "device": "cuda:0", 
+        "device_map": "auto",
+        "device_aux": "cuda:1"
+    },
+    "neighborhood_config": {
+        "model": "bert",
+        "n_perturbation_list": [
+            25
+        ],
+        "pct_words_masked": 0.3,
+        "span_length": 2,
+        "dump_cache": false,
+        "load_from_cache": true,
+        "neighbor_strategy": "random"
+    },
+    "dump_cache": false,
+    "load_from_cache": true,
+    "load_from_hf": false
+}

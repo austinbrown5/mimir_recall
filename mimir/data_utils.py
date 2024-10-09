@@ -16,7 +16,7 @@ class Data:
     def __init__(self, name,
                  config: ExperimentConfig,
                  presampled: str = None,
-                 name_key_mapping: dict = {"the_pile": "text", "xsum": "document"}):
+                 name_key_mapping: dict = {"the_pile": "text", "xsum": "document", "metamathqa": "combined_text"}):
         self.name_key_mapping = name_key_mapping
         self.config = config
         self.name = name
